@@ -17,3 +17,8 @@ export class RegistrationDTO {
     @MaxLength(20)
     username: string;
 }
+
+export interface AuthPayload {
+    username: string;
+
+}

@@ -11,6 +11,12 @@ import {LoggerModule} from '@app/logger/logger.module';
 import {configService} from '@app/config/config.service';
 import {NewsModule} from '@app/news/news.module';
 import { PresentModule } from './present/present.module';
+// import { UserController } from './user/user.controller';
+// import { UserService } from './user/user.service';
+// import { UserModule } from './user/user.module';
+// import { UserEntity } from './user/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 const loggerTransports: Transport[] = [
   new DailyRotateFile({
@@ -35,8 +41,12 @@ if (process.env.NODE_ENV === AppEnvironment.DEVELOPMENT) {
     }),
     LoggerModule,
     NewsModule,
-    PresentModule
+    PresentModule,
+    AuthModule,
+    UserModule
   ],
+  // controllers: [UserController],
+  // providers: [UserService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

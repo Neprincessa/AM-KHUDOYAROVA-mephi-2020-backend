@@ -1,8 +1,9 @@
 import { Injectable, InternalServerErrorException, UnauthorizedException, ConflictException } from '@nestjs/common';
-import { LoginDTO, RegistrationDTO } from '@app/models/user.dto';
+import { LoginDTO, RegistrationDTO } from '@app/models/user.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '@app/user/entity/user.entity';
 import { Repository } from 'typeorm';
+import {JwtService} from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,8 @@ export class AuthService {
 
     constructor (
         @InjectRepository(UserEntity) private userRepo:
-        Repository<UserEntity>
+        Repository<UserEntity>,
+        private jwtService: JwtService
     ) {
     }
 
@@ -24,7 +26,9 @@ export class AuthService {
        try {
            const user = this.userRepo.create(credentials);
            await user.save();
-           return user;
+           const payload = {username: user.username};
+           const token = this.jwtService.sign(payload);
+           return  {user:{...user.toJSON(), token}};
        } catch  (err) {
            if (err.code === '23505') {
                throw new ConflictException('Username has been already taken');
@@ -43,7 +47,9 @@ export class AuthService {
             if (!isValid) {
                 throw new UnauthorizedException("Invalid credentials");
             }
-            return user;
+            const payload = {username: user.username};
+            const token = this.jwtService.sign(payload);
+            return {user:{...user.toJSON(), token}};
         } catch (err) {
             throw new UnauthorizedException("Invalid credentials");
         }
