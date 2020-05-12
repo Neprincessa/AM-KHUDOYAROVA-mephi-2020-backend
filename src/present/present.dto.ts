@@ -1,10 +1,8 @@
-import { IsString, IsInt, IsBoolean } from 'class-validator';
-import { Present } from './entities/present.entity';
+import { IsString, IsInt, IsBoolean, IsOptional } from 'class-validator';
+import { PresentEntity } from './entity/present.entity';
+import { UserResponse } from '@app/user/user.dto';
 
-export class PresentDTO implements Readonly<PresentDTO> {
-  @IsInt()
-  id: string;
-
+export class PresentDTO {
   @IsString()
   name: string;
 
@@ -19,7 +17,6 @@ export class PresentDTO implements Readonly<PresentDTO> {
 
   public static from(dto: Partial<PresentDTO>) {
     const it = new PresentDTO();
-    it.id = dto.id;
     it.name = dto.name;
     it.address = dto.address;
     it.cost = dto.cost;
@@ -27,23 +24,56 @@ export class PresentDTO implements Readonly<PresentDTO> {
     return it;
   }
 
-  public static fromEntity(entity: Present) {
+  public static fromEntity(entity: PresentEntity) {
     return this.from({
-      id: entity.id,
       name: entity.name,
       address: entity.address,
-      cost: entity.cost, 
+      cost: entity.cost,
       state: entity.state,
     });
   }
 
   public toEntity() {
-    const it = new Present();
-    it.id = this.id;
+    const it = new PresentEntity();
     it.name = this.name;
     it.address = this.address;
     it.cost = this.cost;
-    it.state = this.state;
     return it;
   }
+}
+
+export class CreatePresentDTO {
+  @IsString()
+  name: string;
+
+  @IsString()
+  address: string;
+
+  @IsInt()
+  cost: number;
+
+  @IsBoolean()
+  state: boolean;
+}
+
+export class UpdatePresentDTO {
+  @IsString()
+  @IsOptional()
+  name: string;
+
+  @IsString()
+  @IsOptional()
+  address: string;
+
+  @IsInt()
+  @IsOptional()
+  cost: number;
+
+  @IsBoolean()
+  @IsOptional()
+  state: boolean;
+}
+
+export interface FindAllQuery {
+  username: string;
 }

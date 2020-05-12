@@ -1,0 +1,772 @@
+{
+  "info": {
+    "_postman_id": "0574ad8a-a525-43ae-8e1e-5fd9756037f4",
+    "name": "Conduit",
+    "description": "Collection for testing the Conduit API\n\nhttps://github.com/gothinkster/realworld",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!(environment.isIntegrationTest)) {",
+                  "var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "tests['Response contains \"user\" property'] = responseJSON.hasOwnProperty('user');",
+                  "",
+                  "var user = responseJSON.user || {};",
+                  "",
+                  "tests['User has \"email\" property'] = user.hasOwnProperty('email');",
+                  "tests['User has \"username\" property'] = user.hasOwnProperty('username');",
+                  "tests['User has \"name\" property'] = user.hasOwnProperty('name');",
+                  "tests['User has \"surname\" property'] = user.hasOwnProperty('surname');",
+                  "tests['User has \"token\" property'] = user.hasOwnProperty('token');",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"user\":{\"email\":\"{{EMAIL}}\", \"password\":\"{{PASSWORD}}\", \"username\":\"{{USERNAME}}\", \"name\":\"{{NAME}}\", \"surname\":\"{{SURNAME}}\"}}"
+            },
+            "url": {
+              "raw": "{{APIURL}}/users",
+              "host": ["{{APIURL}}"],
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "tests['Response contains \"user\" property'] = responseJSON.hasOwnProperty('user');",
+                  "",
+                  "var user = responseJSON.user || {};",
+                  "",
+                  "tests['User has \"email\" property'] = user.hasOwnProperty('email');",
+                  "tests['User has \"username\" property'] = user.hasOwnProperty('username');",
+                  "tests['User has \"name\" property'] = user.hasOwnProperty('name');",
+                  "tests['User has \"surname\" property'] = user.hasOwnProperty('surname');",
+                  "tests['User has \"token\" property'] = user.hasOwnProperty('token');",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"user\":{\"email\":\"{{EMAIL}}\", \"password\":\"{{PASSWORD}}\"}}"
+            },
+            "url": {
+              "raw": "{{APIURL}}/users/login",
+              "host": ["{{APIURL}}"],
+              "path": ["users", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login and Remember Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a7674032-bf09-4ae7-8224-4afa2fb1a9f9",
+                "type": "text/javascript",
+                "exec": [
+                  "var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "tests['Response contains \"user\" property'] = responseJSON.hasOwnProperty('user');",
+                  "",
+                  "var user = responseJSON.user || {};",
+                  "",
+                  "tests['User has \"email\" property'] = user.hasOwnProperty('email');",
+                  "tests['User has \"username\" property'] = user.hasOwnProperty('username');",
+                  "tests['User has \"name\" property'] = user.hasOwnProperty('name');",
+                  "tests['User has \"surname\" property'] = user.hasOwnProperty('surname');",
+                  "tests['User has \"token\" property'] = user.hasOwnProperty('token');",
+                  "",
+                  "if(tests['User has \"token\" property']){",
+                  "    pm.globals.set('token', user.token);",
+                  "}",
+                  "",
+                  "tests['Global variable \"token\" has been set'] = pm.globals.get('token') === user.token;",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"user\":{\"email\":\"{{EMAIL}}\", \"password\":\"{{PASSWORD}}\"}}"
+            },
+            "url": {
+              "raw": "{{APIURL}}/users/login",
+              "host": ["{{APIURL}}"],
+              "path": ["users", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Current User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "tests['Response contains \"user\" property'] = responseJSON.hasOwnProperty('user');",
+                  "",
+                  "var user = responseJSON.user || {};",
+                  "",
+                  "tests['User has \"email\" property'] = user.hasOwnProperty('email');",
+                  "tests['User has \"username\" property'] = user.hasOwnProperty('username');",
+                  "tests['User has \"name\" property'] = user.hasOwnProperty('name');",
+                  "tests['User has \"surname\" property'] = user.hasOwnProperty('surname');",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{APIURL}}/user",
+              "host": ["{{APIURL}}"],
+              "path": ["user"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "tests['Response contains \"user\" property'] = responseJSON.hasOwnProperty('user');",
+                  "",
+                  "var user = responseJSON.user || {};",
+                  "",
+                  "tests['User has \"email\" property'] = user.hasOwnProperty('email');",
+                  "tests['User has \"username\" property'] = user.hasOwnProperty('username');",
+                  "tests['User has \"name\" property'] = user.hasOwnProperty('name');",
+                  "tests['User has \"surname\" property'] = user.hasOwnProperty('surname');",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"user\":{\"name\":\"{{SURNAME}}\"}}"
+            },
+            "url": {
+              "raw": "{{APIURL}}/user",
+              "host": ["{{APIURL}}"],
+              "path": ["user"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+
+    {
+      "name": "Profiles",
+      "item": [
+        {
+          "name": "Profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!(environment.isIntegrationTest)) {",
+                  "var is200Response = responseCode.code === 200;",
+                  "",
+                  "tests['Response code is 200 OK'] = is200Response;",
+                  "",
+                  "if(is200Response){",
+                  "    var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "    tests['Response contains \"profile\" property'] = responseJSON.hasOwnProperty('profile');",
+                  "    ",
+                  "    var profile = responseJSON.profile || {};",
+                  "    ",
+                  "    tests['Profile has \"username\" property'] = profile.hasOwnProperty('username');",
+                  "    tests['Profile has \"name\" property'] = profile.hasOwnProperty('name');",
+                  "    tests['Profile has \"surname\" property'] = profile.hasOwnProperty('surname');",
+                  "    tests['Profile has \"following\" property'] = profile.hasOwnProperty('following');",
+                  "}",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{APIURL}}/profiles/{{USERNAME}}",
+              "host": ["{{APIURL}}"],
+              "path": ["profiles", "{{USERNAME}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Follow Profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!(environment.isIntegrationTest)) {",
+                  "var is200Response = responseCode.code === 200;",
+                  "",
+                  "tests['Response code is 200 OK'] = is200Response;",
+                  "",
+                  "if(is200Response){",
+                  "    var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "    tests['Response contains \"profile\" property'] = responseJSON.hasOwnProperty('profile');",
+                  "    ",
+                  "    var profile = responseJSON.profile || {};",
+                  "    ",
+                  "    tests['Profile has \"username\" property'] = profile.hasOwnProperty('username');",
+                  "    tests['Profile has \"name\" property'] = profile.hasOwnProperty('name');",
+                  "    tests['Profile has \"surname\" property'] = profile.hasOwnProperty('surname');",
+                  "    tests['Profile has \"following\" property'] = profile.hasOwnProperty('following');",
+                  "    tests['Profile\\'s \"following\" property is true'] = profile.following === true;",
+                  "}",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"user\":{\"email\":\"{{EMAIL}}\"}}"
+            },
+            "url": {
+              "raw": "{{APIURL}}/profiles/{{USERNAME}}/follow",
+              "host": ["{{APIURL}}"],
+              "path": ["profiles", "{{USERNAME}}", "follow"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unfollow Profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!(environment.isIntegrationTest)) {",
+                  "var is200Response = responseCode.code === 200;",
+                  "",
+                  "tests['Response code is 200 OK'] = is200Response;",
+                  "",
+                  "if(is200Response){",
+                  "    var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "    tests['Response contains \"profile\" property'] = responseJSON.hasOwnProperty('profile');",
+                  "    ",
+                  "    var profile = responseJSON.profile || {};",
+                  "    ",
+                  "    tests['Profile has \"username\" property'] = profile.hasOwnProperty('username');",
+                  "    tests['Profile has \"name\" property'] = profile.hasOwnProperty('name');",
+                  "    tests['Profile has \"surname\" property'] = profile.hasOwnProperty('surname');",
+                  "    tests['Profile has \"following\" property'] = profile.hasOwnProperty('following');",
+                  "    tests['Profile\\'s \"following\" property is false'] = profile.following === false;",
+                  "}",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{APIURL}}/profiles/{{USERNAME}}/follow",
+              "host": ["{{APIURL}}"],
+              "path": ["profiles", "{{USERNAME}}", "follow"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Presents",
+      "item": [
+        {
+          "name": "Create Present",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e711dbf8-8065-4ba8-8b74-f1639a7d8208",
+                "type": "text/javascript",
+                "exec": [
+                  "var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "tests['Response contains \"present\" property'] = responseJSON.hasOwnProperty('present');",
+                  "",
+                  "var present = responseJSON.present || {};",
+                  "",
+                  "tests['Present has \"name\" property'] = present.hasOwnProperty('name');",
+                  "tests['Present has \"slug\" property'] = present.hasOwnProperty('slug');",
+                  "pm.globals.set('slug', present.slug);",
+                  "",
+                  "tests['Present has \"address\" property'] = present.hasOwnProperty('address');",
+                  "tests['Present has \"createdAt\" property'] = present.hasOwnProperty('createdAt');",
+                  "tests['Present\\'s \"createdAt\" property is an ISO 8601 timestamp'] = /^\\d{4,}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+(?:[+-][0-2]\\d:[0-5]\\d|Z)$/.test(present.createdAt);",
+                  "tests['Present has \"updatedAt\" property'] = present.hasOwnProperty('updatedAt');",
+                  "tests['Present\\'s \"updatedAt\" property is an ISO 8601 timestamp'] = /^\\d{4,}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+(?:[+-][0-2]\\d:[0-5]\\d|Z)$/.test(present.updatedAt);",
+                  "tests['Present has \"state\" property'] = present.hasOwnProperty('state');",
+                  "tests['Present has \"cost\" property'] = present.hasOwnProperty('cost');",
+                  "tests['Present has \"user\" property'] = present.hasOwnProperty('user');",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"present\":{\"name\":\"dragon\", \"address\":\"msk\", \"cost\":\"12\", \"state\":\"false\"}}"
+            },
+            "url": {
+              "raw": "{{APIURL}}/present",
+              "host": ["{{APIURL}}"],
+              "path": ["present"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Presents by Username with auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var is200Response = responseCode.code === 200;",
+                  "",
+                  "tests['Response code is 200 OK'] = is200Response;",
+                  "",
+                  "if(is200Response){",
+                  "    var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "    tests['Response contains \"presents\" property'] = responseJSON.hasOwnProperty('presents');",
+                  "    tests['Response contains \"presentsCount\" property'] = responseJSON.hasOwnProperty('presentsCount');",
+                  "    tests['presentsCount is an integer'] = Number.isInteger(responseJSON.presentsCount);",
+                  "",
+                  "    if(responseJSON.presents.length){",
+                  "        var present = responseJSON.presents[0];",
+                  "",
+                  "tests['Present has \"name\" property'] = present.hasOwnProperty('name');",
+                  "tests['Present has \"slug\" property'] = present.hasOwnProperty('slug');",
+                  "pm.globals.set('slug', present.slug);",
+                  "",
+                  "tests['Present has \"address\" property'] = present.hasOwnProperty('address');",
+                  "tests['Present has \"createdAt\" property'] = present.hasOwnProperty('createdAt');",
+                  "tests['Present\\'s \"createdAt\" property is an ISO 8601 timestamp'] = /^\\d{4,}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+(?:[+-][0-2]\\d:[0-5]\\d|Z)$/.test(present.createdAt);",
+                  "tests['Present has \"updatedAt\" property'] = present.hasOwnProperty('updatedAt');",
+                  "tests['Present\\'s \"updatedAt\" property is an ISO 8601 timestamp'] = /^\\d{4,}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+(?:[+-][0-2]\\d:[0-5]\\d|Z)$/.test(present.updatedAt);",
+                  "tests['Present has \"state\" property'] = present.hasOwnProperty('state');",
+                  "tests['Present has \"cost\" property'] = present.hasOwnProperty('cost');",
+                  "tests['Present has \"user\" property'] = present.hasOwnProperty('user');",
+                  "    } else {",
+                  "        tests['presentsCount is 0 when feed is empty'] = responseJSON.presentsCount === 0;",
+                  "    }",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{APIURL}}/present?username={{USERNAME}}",
+              "host": ["{{APIURL}}"],
+              "path": ["present"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Single Present by slug",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var is200Response = responseCode.code === 200;",
+                  "",
+                  "tests['Response code is 200 OK'] = is200Response;",
+                  "",
+                  "if(is200Response){",
+                  "var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "tests['Response contains \"present\" property'] = responseJSON.hasOwnProperty('present');",
+                  "var present = responseJSON.present;",
+                  "",
+                  "tests['Present has \"name\" property'] = present.hasOwnProperty('name');",
+                  "tests['Present has \"slug\" property'] = present.hasOwnProperty('slug');",
+                  "pm.globals.set('slug', present.slug);",
+                  "",
+                  "tests['Present has \"address\" property'] = present.hasOwnProperty('address');",
+                  "tests['Present has \"createdAt\" property'] = present.hasOwnProperty('createdAt');",
+                  "tests['Present\\'s \"createdAt\" property is an ISO 8601 timestamp'] = /^\\d{4,}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+(?:[+-][0-2]\\d:[0-5]\\d|Z)$/.test(present.createdAt);",
+                  "tests['Present has \"updatedAt\" property'] = present.hasOwnProperty('updatedAt');",
+                  "tests['Present\\'s \"updatedAt\" property is an ISO 8601 timestamp'] = /^\\d{4,}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+(?:[+-][0-2]\\d:[0-5]\\d|Z)$/.test(present.updatedAt);",
+                  "tests['Present has \"state\" property'] = present.hasOwnProperty('state');",
+                  "tests['Present has \"cost\" property'] = present.hasOwnProperty('cost');",
+                  "tests['Present has \"user\" property'] = present.hasOwnProperty('user');",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{APIURL}}/present/{{slug}}",
+              "host": ["{{APIURL}}"],
+              "path": ["present", "{{slug}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Present",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var is200Response = responseCode.code === 200;",
+                  "",
+                  "tests['Response code is 200 OK'] = is200Response;",
+                  "",
+                  "if(is200Response){",
+                  "    var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "    tests['Response contains \"present\" property'] = responseJSON.hasOwnProperty('present');",
+                  "var present = responseJSON.present;",
+                  "tests['Present has \"name\" property'] = present.hasOwnProperty('name');",
+                  "tests['Present has \"slug\" property'] = present.hasOwnProperty('slug');",
+                  "pm.globals.set('slug', present.slug);",
+                  "",
+                  "tests['Present has \"address\" property'] = present.hasOwnProperty('address');",
+                  "tests['Present has \"createdAt\" property'] = present.hasOwnProperty('createdAt');",
+                  "tests['Present\\'s \"createdAt\" property is an ISO 8601 timestamp'] = /^\\d{4,}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+(?:[+-][0-2]\\d:[0-5]\\d|Z)$/.test(present.createdAt);",
+                  "tests['Present has \"updatedAt\" property'] = present.hasOwnProperty('updatedAt');",
+                  "tests['Present\\'s \"updatedAt\" property is an ISO 8601 timestamp'] = /^\\d{4,}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+(?:[+-][0-2]\\d:[0-5]\\d|Z)$/.test(present.updatedAt);",
+                  "tests['Present has \"state\" property'] = present.hasOwnProperty('state');",
+                  "tests['Present has \"cost\" property'] = present.hasOwnProperty('cost');",
+                  "tests['Present has \"user\" property'] = present.hasOwnProperty('user');",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"present\":{\"name\":\"hands\"}}"
+            },
+            "url": {
+              "raw": "{{APIURL}}/present/{{slug}}",
+              "host": ["{{APIURL}}"],
+              "path": ["present", "{{slug}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Present",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Requested-With",
+                "value": "XMLHttpRequest"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{APIURL}}/present/{{slug}}",
+              "host": ["{{APIURL}}"],
+              "path": ["present", "{{slug}}"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "67853a4a-e972-4573-a295-dad12a46a9d7",
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "3057f989-15e4-484e-b8fa-a041043d0ac0",
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    }
+  ]
+}

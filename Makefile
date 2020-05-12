@@ -8,6 +8,7 @@ nodejsContainerName = mephi-nodejs
 dev-server:
 	mkdir -p ./docker-data/minio/data/miniofolder
 	docker-compose up -d ${postgresContainerName} ${minioContainerName}
+	yarn schema:sync
 	yarn dev
 postgres-cli:
 	docker-compose exec ${postgresContainerName} psql -d ${DB_NAME} -U ${DB_USER}
