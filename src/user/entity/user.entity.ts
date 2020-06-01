@@ -48,8 +48,9 @@ export class UserEntity extends AbstractEntity {
   }
 
   toProfile(user?: UserEntity) {
-    let following = null;
-    if (user) {
+    let following = false;
+    console.log(user);
+    if (user && this.followers !== undefined) {
       following = this.followers.includes(user);
     }
     const profile: any = this.toJSON();

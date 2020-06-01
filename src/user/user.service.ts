@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
 import { Repository } from 'typeorm';
 import { UpdateUserDTO } from './user.dto';
+import { profile } from 'winston';
 
 @Injectable()
 export class UserService {
@@ -18,9 +19,26 @@ export class UserService {
     username: string,
     user?: UserEntity
   ): Promise<UserEntity> {
-    return (await this.userRepo.findOne({ where: { username } })).toProfile(
-      user
-    );
+    const userprof = await this.userRepo.findOne({ where: { username } });
+    if (!userprof) {
+      throw new NotFoundException();
+    }
+    return userprof.toProfile(user);
+  }
+
+  async findWithFriends(
+    username: string,
+    user?: UserEntity
+  ): Promise<UserEntity[]> {
+    const tagetUser = await this.userRepo.findOne({
+      relations: ['followers'],
+      where: { username },
+    });
+    if (!tagetUser) {
+      throw new NotFoundException();
+    }
+    const friends = tagetUser.followers;
+    return friends.map((friend) => friend.toProfile(user));
   }
 
   async findUserByUsername(username: string) {
@@ -36,7 +54,6 @@ export class UserService {
       throw new BadRequestException();
     }
     await this.userRepo.update({ username }, data);
-    console.log(this.findUserByUsername(username));
     return this.findUserByUsername(username);
   }
 
