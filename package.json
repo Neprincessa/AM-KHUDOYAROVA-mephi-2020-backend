@@ -5,6 +5,7 @@
   "author": "",
   "license": "MIT",
   "scripts": {
+    "build": "tsc -p .",
     "prod": "ts-node -r tsconfig-paths/register src/main.ts",
     "dev": "nodemon --config nodemon.json",
     "schema:sync": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm schema:sync",
@@ -57,7 +58,7 @@
     "tslint": "5.16.0",
     "typeorm": "^0.2.18",
     "typeorm-naming-strategies": "^1.1.0",
-    "typescript": "3.4.3",
+    "typescript": "3.7.2",
     "wait-on": "^3.2.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.2.1"

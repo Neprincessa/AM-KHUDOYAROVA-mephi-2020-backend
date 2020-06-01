@@ -1,17 +1,16 @@
-version: '2'
+version: "2"
 
 services:
-
   mephi-postgres:
     container_name: mephi-postgres
     build: ./docker/postgres
     image: mephi-postgres
     ports:
-    - 5433:5432
+      - 5432:5432
     env_file:
       - .env
     volumes:
-    - ./docker-data/postgres/data:/var/lib/postgresql/data
+      - ./docker-data/postgres/data:/var/lib/postgresql/data
     environment:
       PGDATA: /var/lib/postgresql/data/
     restart: always
@@ -22,27 +21,28 @@ services:
     ports:
       - 9000:9000
     volumes:
-    - ./docker-data/minio/data:/data
+      - ./docker-data/minio/data:/data
     command: server /data
     env_file:
       - .env
     restart: always
 
-  kaf42-nodejs:
+  mephi-nodejs:
     container_name: mephi-nodejs
-    build: ./docker/nodejs
+    build: ./
     image: mephi-nodejs
     volumes:
       - .:/app
+      - /app/node_modules
     ports:
-      - 8090:${PORT}
+      - 8090:3000
       - 5555:5555
     env_file:
       - .env
     depends_on:
       - mephi-postgres
       - mephi-minio
-    command: yarn prod
+    command: npm run dev
     restart: always
 
 networks:
