@@ -2,7 +2,6 @@
 
 set -e
 
-psql --username postgres <<-EOSQL
-    CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASSWORD}';
-    CREATE DATABASE ${DB_NAME} OWNER ${DB_USER};
+psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 EOSQL
