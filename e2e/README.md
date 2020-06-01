@@ -113,6 +113,36 @@ Make sure the right content type like `Content-Type: application/json; charset=u
 }
 ```
 
+### Friends
+
+```JSON
+{
+  "profiles": [
+    {
+      "id": 1,
+      "createdAt": "2020-06-01T16:28:37.526Z",
+      "updatedAt": "2020-06-01T16:28:37.526Z",
+      "email": "khuij@f.com",
+      "username": "jgdhgfh",
+      "name": "nastya",
+      "surname": "yaaka",
+      "following": false
+    },
+    {
+      "id": 3,
+      "createdAt": "2020-06-01T17:22:37.526Z",
+      "updatedAt": "2020-06-01T17:22:37.526Z",
+      "email": "kvfsf@f.com",
+      "username": "fvdr",
+      "name": "nastya",
+      "surname": "yaaka",
+      "following": false
+    }
+  ],
+  "profilesCount": 2
+}
+```
+
 ### Errors and Status Codes
 
 If a request fails any validations, expect a 422 and errors in the following format:
@@ -221,6 +251,16 @@ No additional parameters required
 `DELETE /api/profiles/:username/follow`
 
 Authentication required, returns a [Profile](#profile)
+
+No additional parameters required
+
+### List friends
+
+`GET /api/profiles/:username/friends`
+
+Authentication is optional, returns list of [Profiles](#profile)
+
+If user has auth token in the future he will see who is his friend.
 
 No additional parameters required
 
