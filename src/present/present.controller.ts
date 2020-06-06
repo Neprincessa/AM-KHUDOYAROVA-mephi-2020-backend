@@ -61,17 +61,11 @@ export class PresentController {
   }
 
   @Put('/:slug')
-  @UseGuards(AuthGuard())
   async updatePresent(
     @Param('slug') slug: string,
-    @User() user: UserEntity,
     @Body(ValidationPipe) data: { present: UpdatePresentDTO }
   ) {
-    const present = await this.presentService.updatePresent(
-      slug,
-      user,
-      data.present
-    );
+    const present = await this.presentService.updatePresent(slug, data.present);
     return { present };
   }
 

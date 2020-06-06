@@ -31,12 +31,12 @@ export class UserEntity extends AbstractEntity {
   @Column({ default: '' })
   surname: string;
 
-  @ManyToMany(() => UserEntity, (user) => user.followee)
+  @ManyToMany(() => UserEntity, (user) => user.isFriend)
   @JoinTable()
-  followers: UserEntity[];
+  friendOf: UserEntity[];
 
-  @ManyToMany(() => UserEntity, (user) => user.followers)
-  followee: UserEntity[];
+  @ManyToMany(() => UserEntity, (user) => user.friendOf)
+  isFriend: UserEntity[];
 
   @BeforeInsert()
   async hashPassword() {
@@ -48,14 +48,14 @@ export class UserEntity extends AbstractEntity {
   }
 
   toProfile(user?: UserEntity) {
-    let following = false;
-    console.log(user);
-    if (user && this.followers !== undefined) {
-      following = this.followers.includes(user);
+    let areFriends = false;
+    console.log(this.isFriend);
+    if (user && this.isFriend !== undefined) {
+      areFriends = this.isFriend.indexOf(user) !== -1 ? true : false;
     }
     const profile: any = this.toJSON();
-    delete profile.followers;
-    return { ...profile, following };
+    delete profile.isFriend;
+    return { ...profile, areFriends };
   }
 
   toUser() {

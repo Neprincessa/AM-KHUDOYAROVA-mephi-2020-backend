@@ -5,9 +5,8 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { UpdateUserDTO } from './user.dto';
-import { profile } from 'winston';
 
 @Injectable()
 export class UserService {
@@ -19,7 +18,10 @@ export class UserService {
     username: string,
     user?: UserEntity
   ): Promise<UserEntity> {
-    const userprof = await this.userRepo.findOne({ where: { username } });
+    const userprof = await this.userRepo.findOne({
+      where: { username },
+      relations: ['isFriend'],
+    });
     if (!userprof) {
       throw new NotFoundException();
     }
@@ -27,55 +29,71 @@ export class UserService {
   }
 
   async findWithFriends(
-    username: string,
+    usrName: string,
     user?: UserEntity
   ): Promise<UserEntity[]> {
     const tagetUser = await this.userRepo.findOne({
-      relations: ['followers'],
-      where: { username },
+      relations: ['isFriend'],
+      where: { username: usrName },
     });
     if (!tagetUser) {
       throw new NotFoundException();
     }
-    const friends = tagetUser.followers;
-    return friends.map((friend) => friend.toProfile(user));
+    const friends = tagetUser.isFriend;
+    return friends.map((friend) => friend.toProfile());
   }
 
-  async findUserByUsername(username: string) {
-    const user = await this.userRepo.findOne({ where: { username } });
+  async findUserByUsername(usrName: string) {
+    const user = await this.userRepo.findOne({ where: { username: usrName } });
     if (!user) {
       throw new NotFoundException();
     }
     return user.toUser();
   }
 
-  async updateUser(username: string, data: UpdateUserDTO) {
+  async updateUser(usrName: string, data: UpdateUserDTO) {
     if (!data) {
       throw new BadRequestException();
     }
-    await this.userRepo.update({ username }, data);
-    return this.findUserByUsername(username);
+    await this.userRepo.update({ username: usrName }, data);
+    return this.findUserByUsername(usrName);
   }
 
-  async followUser(currentUser: UserEntity, username: string) {
+  async followUser(currentUser: UserEntity, usrName: string) {
     const user = await this.userRepo.findOne({
-      where: { username },
-      relations: ['followers'],
+      where: { username: usrName },
     });
-    user.followers.push(currentUser);
-    await user.save();
-    return user.toProfile(currentUser);
+    const thisUser = await this.userRepo.findOne({
+      where: { username: currentUser.username },
+      relations: ['isFriend'],
+    });
+    if (thisUser.isFriend.indexOf(user) === -1) {
+      thisUser.isFriend.push(user);
+    }
+    await thisUser.save();
+    return thisUser.toProfile(user);
   }
 
-  async unfollowUser(currentUser: UserEntity, username: string) {
-    const user = await this.userRepo.findOne({
-      where: { username },
-      relations: ['followers'],
+  async unfollowUser(currentUser: UserEntity, usrName: string) {
+    const userToDelete = await this.userRepo.findOne({
+      where: { username: usrName },
     });
-    user.followers = user.followers.filter(
-      (follower) => follower !== currentUser
+    const user = await this.userRepo.findOne({
+      where: { username: currentUser.username },
+      relations: ['isFriend'],
+    });
+    user.isFriend = user.isFriend.filter(
+      (friend) => friend.username !== userToDelete.username
     );
     await user.save();
-    return user.toProfile(currentUser);
+    return user.toProfile(userToDelete);
+  }
+
+  async findSameAs(usrName: string): Promise<UserEntity[]> {
+    const users = await this.userRepo.find({ username: Like(`%${usrName}%`) });
+    if (!users) {
+      throw new NotFoundException();
+    }
+    return users.map((user) => user.toProfile());
   }
 }

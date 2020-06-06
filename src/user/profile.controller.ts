@@ -64,4 +64,13 @@ export class ProfileController {
     const profile = await this.userService.unfollowUser(user, username);
     return { profile };
   }
+
+  @Get('/find/:username')
+  async findProfiles(@Param('username') username: string) {
+    const profiles = await this.userService.findSameAs(username);
+    if (!profiles) {
+      throw new NotFoundException();
+    }
+    return { profiles, profilesCount: profiles.length };
+  }
 }

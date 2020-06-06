@@ -54,11 +54,8 @@ export class PresentService {
     return (await this.presentRepo.findOne({ slug })).toJSON();
   }
 
-  async updatePresent(slug: string, user: UserEntity, data: UpdatePresentDTO) {
+  async updatePresent(slug: string, data: UpdatePresentDTO) {
     const present = await this.findBySlug(slug);
-    if (!this.ensureOwnership(user, present)) {
-      throw new UnauthorizedException();
-    }
     if (!present) {
       throw new NotFoundException();
     }
