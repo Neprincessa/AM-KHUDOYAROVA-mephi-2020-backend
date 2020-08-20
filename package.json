@@ -28,7 +28,7 @@
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
     "@types/slug": "^0.9.1",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "cache-manager": "^2.9.1",
     "class-transformer": "^0.2.3",
